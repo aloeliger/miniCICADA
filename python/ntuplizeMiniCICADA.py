@@ -146,7 +146,6 @@ process.load('L1Trigger.anomalyTriggerSkunkworks.uGTModelNtuplizer_cfi')
 process.load('L1Trigger.anomalyTriggerSkunkworks.pileupNetworkNtuplizer_cfi')
 
 
-
 process.TFileService = cms.Service(
 	"TFileService",
 	#fileName = cms.string("l1TNtuple-test.root")
@@ -163,9 +162,12 @@ process.schedule.append(process.NtuplePath)
 
 process.load('L1Trigger.miniCICADA.PFcandSequence_cfi')
 process.load('L1Trigger.miniCICADA.electronInformationAnalyzer_cfi')
+process.load('L1Trigger.miniCICADA.pileupInformationNtuplizer_cfi')
+
 
 process.miniNtuplePath = cms.Path(
-    process.PFcandSequence #+ 
+    process.PFcandSequence +
+    process.pileupInformationNtuplizer 
     #process.electronInformationAnalyzer
 )
 process.schedule.append(process.miniNtuplePath)
