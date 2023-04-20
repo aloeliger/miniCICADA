@@ -1,11 +1,14 @@
 from createMiniCICADA import *
-from checkScoreOnDisk import theFiles
+#from checkScoreOnDisk import theFiles
 import ROOT
 import numpy as np
 from sklearn.model_selection import train_test_split
 import random
+import h5py
+import math
+import os
 
-class miniCICADAGenerator(keras.utils.Sequence):
+""" class miniCICADAGenerator(keras.utils.Sequence):
     def __init__(self, fileNames, batch_size=32):
         self.fileNames = fileNames
         self.batch_size = batch_size
@@ -64,9 +67,37 @@ class miniCICADAGenerator(keras.utils.Sequence):
 
             yInfo.append([self.anomalyChain.anomalyScore])
         
-        return np.array(xInfo), np.array(yInfo)
+        return np.array(xInfo), np.array(yInfo) """
+
+class miniCICADAGenerator(keras.utils.Sequence):
+    def __init__(self, fileNames, batch_size=32, batchesPerFile=100):
+        self.fileNames = fileNames
+        self.batch_size = batch_size
+        self.batchesPerFile = batchesPerFile
+    
+    def __len__(self):
+        return self.batchesPerFile*len(self.fileNames)
+    
+    def __getitem__(self, idx):
+        fileNum = math.floor(idx/self.batchesPerFile)
+
+        batchIndex = idx % self.batchesPerFile
+
+        with h5py.File(self.fileNames[fileNum]) as theFile:
+            inputDset = theFile['input']
+            outputDset = theFile['output']
+
+            inputBatch = inputDset[batchIndex*self.batch_size:(batchIndex+1)*self.batch_size]
+            outputBatch = outputDset[batchIndex*self.batch_size:(batchIndex+1)*self.batch_size]
+
+            return inputBatch, outputBatch
 
 if __name__ == '__main__':
+    theFiles = []
+    for root, dirs, files, in os.walk('testHDF5', topdown=True):
+        for name in files:
+            theFiles.append(os.path.join(root, name))
+
     trainFiles, valFiles = train_test_split(theFiles, train_size=0.7, random_state=1234)
 
     print(len(trainFiles))
@@ -95,10 +126,9 @@ if __name__ == '__main__':
         keras.layers.BatchNormalization(),
         keras.layers.Dense(100),
         keras.layers.ReLU(),
-        keras.layers.BatchNormalization(),
+        keras.layers.Dropout(0.3),
         keras.layers.Dense(75),
         keras.layers.ReLU(),
-        keras.layers.BatchNormalization(),
         keras.layers.Dense(50),
         keras.layers.ReLU(),
         keras.layers.Dense(1)
@@ -125,10 +155,10 @@ if __name__ == '__main__':
 
     model.fit(
         x=trainGenerator,
-        epochs=300,
+        epochs=100,
         validation_data=valGenerator,
         steps_per_epoch = 1000,
-        validation_steps = 100,
+        #validation_steps = 100,
         callbacks = [
             checkpointCallback,
             LRScheduler,

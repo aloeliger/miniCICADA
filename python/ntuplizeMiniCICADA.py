@@ -163,11 +163,13 @@ process.schedule.append(process.NtuplePath)
 process.load('L1Trigger.miniCICADA.PFcandSequence_cfi')
 process.load('L1Trigger.miniCICADA.electronInformationAnalyzer_cfi')
 process.load('L1Trigger.miniCICADA.pileupInformationNtuplizer_cfi')
+process.load('L1Trigger.miniCICADA.metInformationNtuplizer_cfi')
 
 
 process.miniNtuplePath = cms.Path(
     process.PFcandSequence +
-    process.pileupInformationNtuplizer 
+    process.pileupInformationNtuplizer +
+    process.metInformationNtuplizer
     #process.electronInformationAnalyzer
 )
 process.schedule.append(process.miniNtuplePath)

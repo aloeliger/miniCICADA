@@ -72,13 +72,16 @@ def main():
     )
 
     #for i in trange(numEntries):
-    for i in trange(20000):
+    for i in trange(1000000):
         anomalyChain.GetEntry(i)
         chargedHadronPFchain.GetEntry(i)
         neutralHadronPFchain.GetEntry(i)
         muonPFchain.GetEntry(i)
         electronPFchain.GetEntry(i)
         gammaPFchain.GetEntry(i)
+
+        if anomalyChain.anomalyScore < 10.0:
+            continue
 
         inputInfo = [makeInputListFromEntry(
             chargedHadronPFcands=chargedHadronPFchain,
@@ -121,6 +124,7 @@ def main():
     scoreComparisonCanvas.SaveAs('scoreComparison.png')
 
     errorCanvas = ROOT.TCanvas('errorComparison')
+    errorCanvas.SetLogy()
     errorHistogram.Divide(numEntriesHistogram)
 
     errorHistogram.SetMarkerStyle(20)
@@ -132,6 +136,7 @@ def main():
     errorHistogram.GetXaxis().SetTitle('CICADA Score')
     errorHistogram.GetYaxis().SetTitle('Average Absolute Error')
     errorHistogram.SetTitle('')
+    errorHistogram.GetYaxis().SetRangeUser(0.01,10)
 
     errorCanvas.SaveAs('errorComparison.png')
 
