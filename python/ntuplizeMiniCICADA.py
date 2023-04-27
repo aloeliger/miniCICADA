@@ -34,15 +34,30 @@ process.MessageLogger.suppressWarning = cms.untracked.vstring(
 
 #Define out input source
 process.source = cms.Source("PoolSource",
-                            fileNames = cms.untracked.vstring('/store/data/Run2018D/EphemeralZeroBias2/MINIAOD/PromptReco-v2/000/320/497/00000/22EA8756-6395-E811-A29D-02163E019FE1.root'),
+                            # fileNames = cms.untracked.vstring('/store/data/Run2018D/EphemeralZeroBias2/MINIAOD/PromptReco-v2/000/320/497/00000/22EA8756-6395-E811-A29D-02163E019FE1.root'),
+                            # secondaryFileNames = cms.untracked.vstring(
+                            #     '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/128A5822-CA93-E811-9F04-FA163ECFF8BE.root',
+                            #     '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/54967CD9-C893-E811-BE8B-FA163E085754.root',
+                            #     '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/8437145A-CB93-E811-A6AD-FA163E222D2C.root',
+                            #     '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/B48ECE7A-C893-E811-BFC7-FA163E33D73A.root',
+                            #     '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/CC8A25EB-C993-E811-AB4A-FA163E48E52D.root',
+                            #     '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/D2402298-C893-E811-8D87-02163E00CE99.root',
+                            #     '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/F042C778-C893-E811-B840-FA163E365B83.root'
+                            # )
+                            fileNames = cms.untracked.vstring('/store/data/Run2018D/EphemeralZeroBias2/MINIAOD/PromptReco-v2/000/320/570/00000/280370FC-6496-E811-833E-FA163E80C350.root'),
                             secondaryFileNames = cms.untracked.vstring(
-                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/128A5822-CA93-E811-9F04-FA163ECFF8BE.root',
-                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/54967CD9-C893-E811-BE8B-FA163E085754.root',
-                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/8437145A-CB93-E811-A6AD-FA163E222D2C.root',
-                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/B48ECE7A-C893-E811-BFC7-FA163E33D73A.root',
-                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/CC8A25EB-C993-E811-AB4A-FA163E48E52D.root',
-                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/D2402298-C893-E811-8D87-02163E00CE99.root',
-                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/497/00000/F042C778-C893-E811-B840-FA163E365B83.root'
+                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/570/00000/16DFBFAF-8094-E811-8E3F-02163E019FF6.root',
+                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/570/00000/1827616B-7A94-E811-AF40-FA163E4BCD81.root',
+                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/570/00000/2EED80AC-8D94-E811-8BAD-FA163ECCE6F0.root',
+                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/570/00000/584A05BA-7994-E811-9DB8-FA163E3FE3C5.root',
+                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/570/00000/5E56BDCB-7F94-E811-92D9-FA163E990568.root',
+                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/570/00000/80CD42EA-7E94-E811-864C-FA163EBC5A2D.root',
+                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/570/00000/8E033345-7C94-E811-B4AF-FA163E3F4095.root',
+                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/570/00000/B2792A4F-7C94-E811-B14A-FA163EC1819D.root',
+                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/570/00000/D01BB388-8194-E811-910B-02163E017F52.root',
+                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/570/00000/E6C30D4D-7C94-E811-AABA-FA163EF21D25.root',
+                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/570/00000/E83578F9-8294-E811-B2FA-FA163E376DA0.root',
+                                '/store/data/Run2018D/EphemeralZeroBias2/RAW/v1/000/320/570/00000/FA84DB3F-7D94-E811-B8B7-FA163E793AC1.root',
                             )
 )
 
@@ -78,6 +93,20 @@ process.options = cms.untracked.PSet(
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_data', '')
 
+
+from L1Trigger.miniCICADA.randomSelectionFilter_cfi import randomSelectionFilter
+process.theRandomSelectionFilter = randomSelectionFilter.clone( reductionRate = cms.double(20.0))
+
+process.RandomNumberGeneratorService = cms.Service(
+    'RandomNumberGeneratorService',
+    theRandomSelectionFilter = cms.PSet(
+        initialSeed = cms.untracked.uint32(1234),
+    ),
+
+)
+
+
+process.raw2digi_step = cms.Path(process.theRandomSelectionFilter + process.RawToDigi)
 process.raw2digi_step = cms.Path(process.RawToDigi)
 process.endjob_step = cms.EndPath(process.endOfProcess)
 
@@ -97,6 +126,8 @@ from L1Trigger.Configuration.customiseReEmul import L1TReEmulFromRAW
 
 #call to customisation function L1TReEmulFromRAW imported from L1Trigger.Configuration.customiseReEmul
 process = L1TReEmulFromRAW(process)
+
+process.L1TReEmulPath.insert(0, process.theRandomSelectionFilter)
 
 # Automatic addition of the customisation function from L1Trigger.L1TNtuples.customiseL1Ntuple
 #from L1Trigger.L1TNtuples.customiseL1Ntuple import L1NtupleRAWEMU 
@@ -128,7 +159,7 @@ process.productionTask = cms.Task(
     #process.pileupNetworkProducer,
 )
 
-process.productionPath = cms.Path(process.productionTask)
+process.productionPath = cms.Path(process.theRandomSelectionFilter, process.productionTask)
 
 process.schedule.append(process.productionPath)
 
@@ -145,6 +176,22 @@ process.load('L1Trigger.anomalyTriggerSkunkworks.uGTModelNtuplizer_cfi')
 
 process.load('L1Trigger.anomalyTriggerSkunkworks.pileupNetworkNtuplizer_cfi')
 
+process.load('L1Trigger.miniCICADA.PFcandSequence_cfi')
+process.load('L1Trigger.miniCICADA.electronInformationAnalyzer_cfi')
+process.load('L1Trigger.miniCICADA.pileupInformationNtuplizer_cfi')
+process.load('L1Trigger.miniCICADA.metInformationNtuplizer_cfi')
+process.load('L1Trigger.miniCICADA.caloStage2EGammaNtuplizer_cfi')
+process.load('L1Trigger.miniCICADA.caloStage2JetNtuplizer_cfi')
+process.load('L1Trigger.miniCICADA.caloStage2TauNtuplizer_cfi')
+process.load('L1Trigger.miniCICADA.caloStage2EtSumNtuplizer_cfi')
+
+process.caloStage2Sequence = cms.Sequence(
+                                process.caloStage2EGammaNtuplizer + 
+                                process.caloStage2JetNtuplizer + 
+                                process.caloStage2TauNtuplizer +
+                                process.caloStage2EtSumNtuplizer
+)
+
 
 process.TFileService = cms.Service(
 	"TFileService",
@@ -152,24 +199,21 @@ process.TFileService = cms.Service(
         fileName = cms.string(options.outputFile)
 )
 process.NtuplePath = cms.Path(
+                                process.theRandomSelectionFilter+
                                 process.L1TCaloSummaryTestNtuplizer +
                                 #process.L1TTriggerBitsNtuplizer +
                                 #process.boostedJetTriggerNtuplizer +
-                                process.uGTModelNtuplizer #+
+                                process.uGTModelNtuplizer +
                                 #process.pileupNetworkNtuplizer
-                              )
+
+                                process.PFcandSequence +
+                                process.pileupInformationNtuplizer +
+                                process.metInformationNtuplizer +
+                                process.caloStage2Sequence
+)
 process.schedule.append(process.NtuplePath)
 
-process.load('L1Trigger.miniCICADA.PFcandSequence_cfi')
-process.load('L1Trigger.miniCICADA.electronInformationAnalyzer_cfi')
-process.load('L1Trigger.miniCICADA.pileupInformationNtuplizer_cfi')
-process.load('L1Trigger.miniCICADA.metInformationNtuplizer_cfi')
-
-
-process.miniNtuplePath = cms.Path(
-    process.PFcandSequence +
-    process.pileupInformationNtuplizer +
-    process.metInformationNtuplizer
-    #process.electronInformationAnalyzer
-)
-process.schedule.append(process.miniNtuplePath)
+print("schedule:")
+print(process.schedule)
+print("schedule contents:")
+print([x for x in process.schedule])
