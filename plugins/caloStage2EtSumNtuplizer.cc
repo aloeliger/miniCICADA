@@ -56,7 +56,7 @@ caloStage2EtSumNtuplizer::caloStage2EtSumNtuplizer(const edm::ParameterSet& iCon
     usesResource("TFileService");
     consumes<BXVector<l1t::EtSum>>(EtSumTag);
 
-    outputTree = theFileService->make<TTree>("L1CaloEgammaInformation","EGamma information at the CaloL2 level");    
+    outputTree = theFileService->make<TTree>("L1CaloEtSumInformation","EGamma information at the CaloL2 level");    
     outputTree->Branch("nObjects", &nObjects);
     outputTree->Branch("ptVector", &ptVector);
     outputTree->Branch("etaVector", &etaVector);
