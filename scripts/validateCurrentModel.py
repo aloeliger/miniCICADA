@@ -1,7 +1,7 @@
 import ROOT
 from tensorflow import keras
 from tqdm import trange
-from createMiniCICADA import *
+#from createMiniCICADA import *
 import numpy as np
 
 def main():

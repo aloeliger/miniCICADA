@@ -93,20 +93,6 @@ process.options = cms.untracked.PSet(
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_data', '')
 
-
-from L1Trigger.miniCICADA.randomSelectionFilter_cfi import randomSelectionFilter
-process.theRandomSelectionFilter = randomSelectionFilter.clone( reductionRate = cms.double(20.0))
-
-process.RandomNumberGeneratorService = cms.Service(
-    'RandomNumberGeneratorService',
-    theRandomSelectionFilter = cms.PSet(
-        initialSeed = cms.untracked.uint32(1234),
-    ),
-
-)
-
-
-process.raw2digi_step = cms.Path(process.theRandomSelectionFilter + process.RawToDigi)
 process.raw2digi_step = cms.Path(process.RawToDigi)
 process.endjob_step = cms.EndPath(process.endOfProcess)
 
@@ -126,8 +112,6 @@ from L1Trigger.Configuration.customiseReEmul import L1TReEmulFromRAW
 
 #call to customisation function L1TReEmulFromRAW imported from L1Trigger.Configuration.customiseReEmul
 process = L1TReEmulFromRAW(process)
-
-process.L1TReEmulPath.insert(0, process.theRandomSelectionFilter)
 
 # Automatic addition of the customisation function from L1Trigger.L1TNtuples.customiseL1Ntuple
 #from L1Trigger.L1TNtuples.customiseL1Ntuple import L1NtupleRAWEMU 
@@ -159,7 +143,7 @@ process.productionTask = cms.Task(
     #process.pileupNetworkProducer,
 )
 
-process.productionPath = cms.Path(process.theRandomSelectionFilter, process.productionTask)
+process.productionPath = cms.Path(process.productionTask)
 
 process.schedule.append(process.productionPath)
 
@@ -184,6 +168,7 @@ process.load('L1Trigger.miniCICADA.caloStage2EGammaNtuplizer_cfi')
 process.load('L1Trigger.miniCICADA.caloStage2JetNtuplizer_cfi')
 process.load('L1Trigger.miniCICADA.caloStage2TauNtuplizer_cfi')
 process.load('L1Trigger.miniCICADA.caloStage2EtSumNtuplizer_cfi')
+process.load('L1Trigger.miniCICADA.slimmedObjectCounter_cfi')
 
 process.caloStage2Sequence = cms.Sequence(
                                 process.caloStage2EGammaNtuplizer + 
@@ -199,17 +184,13 @@ process.TFileService = cms.Service(
         fileName = cms.string(options.outputFile)
 )
 process.NtuplePath = cms.Path(
-                                process.theRandomSelectionFilter+
                                 process.L1TCaloSummaryTestNtuplizer +
-                                #process.L1TTriggerBitsNtuplizer +
-                                #process.boostedJetTriggerNtuplizer +
                                 process.uGTModelNtuplizer +
-                                #process.pileupNetworkNtuplizer
-
                                 process.PFcandSequence +
                                 process.pileupInformationNtuplizer +
                                 process.metInformationNtuplizer +
-                                process.caloStage2Sequence
+                                process.caloStage2Sequence +
+                                process.objectCountSequence 
 )
 process.schedule.append(process.NtuplePath)
 
