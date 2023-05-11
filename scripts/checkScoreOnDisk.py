@@ -1,7 +1,7 @@
 import ROOT
 import os
 
-from L1Trigger.miniCICADA.scriptIncludes.fileList import theFiles
+from anomalyDetection.miniCICADA.scriptIncludes.fileList import theFiles
 
 if __name__ == '__main__':
     theChain = ROOT.TChain('L1TCaloSummaryTestNtuplizer/L1TCaloSummaryOutput')

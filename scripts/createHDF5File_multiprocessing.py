@@ -1,8 +1,8 @@
 import h5py
 import ROOT
 import numpy as np
-from L1Trigger.miniCICADA.scriptIncludes.candidates import *
-from L1Trigger.miniCICADA.scriptIncludes.fileList import theFiles
+from anomalyDetection.miniCICADA.scriptIncludes.candidates import *
+from anomalyDetection.miniCICADA.scriptIncludes.fileList import theFiles
 import time
 from tqdm import trange
 import multiprocessing

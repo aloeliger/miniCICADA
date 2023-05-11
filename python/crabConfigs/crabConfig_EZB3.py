@@ -10,9 +10,9 @@ config.General.workArea = 'crabWorkArea'
 config.General.transferOutputs = True
 
 config.JobType.pluginname = 'Analysis'
-config.JobType.psetName = f'{os.environ["CMSSW_BASE"]}/src/L1Trigger/miniCICADA/python/ntuplizeMiniCICADA.py'
+config.JobType.psetName = f'{os.environ["CMSSW_BASE"]}/src/anomalyDetection/miniCICADA/python/ntuplizeMiniCICADA.py'
 config.JobType.maxMemoryMB = 4000
-cicadaPath = f'{os.environ["CMSSW_BASE"]}/src/L1Trigger/CICADA'
+cicadaPath = f'{os.environ["CMSSW_BASE"]}/src/anomalyDetection/CICADA'
 if os.path.isdir(cicadaPath):
     config.JobType.inputFiles=[cicadaPath]
 

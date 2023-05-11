@@ -1,7 +1,7 @@
 import ROOT
 from tensorflow import keras
 from tqdm import trange
-from L1Trigger.miniCICADA.scriptIncludes.fileList import theFiles
+from anomalyDetection.miniCICADA.scriptIncludes.fileList import theFiles
 from createHDF5File import *
 import numpy as np
 
