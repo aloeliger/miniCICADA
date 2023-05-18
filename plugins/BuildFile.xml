@@ -6,5 +6,6 @@
 <use name="DataFormats/VertexReco"/>
 <use name="DataFormats/L1Trigger"/>
 <use name="DataFormats/PatCandidates"/>
+<use name="PhysicsTools/TensorFlow"/>
 
 <flags EDM_PLUGIN="1"/>
