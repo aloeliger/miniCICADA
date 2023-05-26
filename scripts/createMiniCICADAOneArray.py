@@ -8,13 +8,13 @@ from tqdm import trange
 import ROOT
 import tensorflow as tf
 
-def createTrainValTestArrays():
+def createTrainValTestArrays(inputFileForShuffle, outputFileForShuffle):
     print('loading information...')
     startTime = time.perf_counter()
-    with h5py.File('/nfs_scratch/aloeliger/testHDF5Files/largeInputFile.hdf5') as inputFile:
-        scoreArray = np.array(inputFile['anomalyScore'][:int(3*len(inputFile['anomalyScore'])/4)])
+    with h5py.File(inputFileForShuffle) as inputFile:
+        scoreArray = np.array(inputFile['anomalyScore'][:int(3*len(inputFile['anomalyScore'])/5)])
         # scoreArray = np.array(inputFile['anomalyScore'])
-        inputArray = np.array(inputFile['input'][:int(3*len(inputFile['input'])/4)])
+        inputArray = np.array(inputFile['input'][:int(3*len(inputFile['input'])/5)])
         # inputArray = np.array(inputFile['input'])
 
     endTime = time.perf_counter()
@@ -31,7 +31,7 @@ def createTrainValTestArrays():
 
     print('Writing file')
     startTime = time.perf_counter()
-    with h5py.File('/nfs_scratch/aloeliger/miniCICADATraining.hdf5','w') as outputFile:
+    with h5py.File(outputFileForShuffle,'w') as outputFile:
         outputFile.create_dataset('train_input', train_input.shape)
         outputFile.create_dataset('train_output', train_output.shape)
         outputFile.create_dataset('val_input', val_input.shape)
@@ -51,10 +51,10 @@ def createTrainValTestArrays():
 
     return train_input, train_output, val_input, val_output, test_input, test_output
 
-def loadExistingTrainValTestArrays():
+def loadExistingTrainValTestArrays(shuffledFile):
     print('loading information...')
     startTime = time.perf_counter()
-    with h5py.File('/nfs_scratch/aloeliger/miniCICADATraining.hdf5') as theFile:
+    with h5py.File(shuffledFile) as theFile:
         train_input = np.array(theFile['train_input'])
         train_output = np.array(theFile['train_output'])
         val_input = np.array(theFile['val_input'])
@@ -71,9 +71,14 @@ def loadExistingTrainValTestArrays():
 def main(args):
 
     if args.loadExistingShuffle:
-        train_input, train_output, val_input, val_output, test_input, test_output = loadExistingTrainValTestArrays()
+        train_input, train_output, val_input, val_output, test_input, test_output = loadExistingTrainValTestArrays(
+            shuffledFile=args.shuffledFile,
+        )
     else:
-        train_input, train_output, val_input, val_output, test_input, test_output = createTrainValTestArrays()
+        train_input, train_output, val_input, val_output, test_input, test_output = createTrainValTestArrays(
+            inputFileForShuffle=args.inputFileForShuffle,
+            outputFileForShuffle=args.shuffledFile,
+        )
 
     print('Input shapes:')
     train_input_shape = f'Train: {train_input.shape}'
@@ -81,6 +86,10 @@ def main(args):
     test_input_shape = f'Test: {test_input.shape}'
     print(f'{train_input_shape:^18} {val_input_shape:^18} {test_input_shape:^18}')
     print('output_shapes:')
+#chain.GetEntry(i)
+#theScore = chain.anomalyScore
+#theHistogram.Fill(theScore)
+    
     train_output_shape = f'Train: {train_output.shape}'
     val_output_shape = f'Val: {val_output.shape}'
     test_output_shape = f'Test: {test_output.shape}'
@@ -205,7 +214,7 @@ def main(args):
         )
 
         testEntries = min(len(test_output),args.histogramEntries)
-        for index in trange(testEntries, ncols=40):
+        for index in trange(testEntries, ncols=0):
             modelPrediction = model.predict(test_input[index:index+1])
             anomalyScore = test_output[index:index+1]
 
@@ -261,6 +270,8 @@ if __name__ == '__main__':
     parser.add_argument('--performValidation', action='store_true',help='Perform the plot creation step immediately after training')
     parser.add_argument('--loadExistingShuffle', action='store_true',help='Load existing split files, otherwise the will be created again and overwritten')
     parser.add_argument('--histogramEntries',type=int,default=100000,help='Number of entries to test plots for')
+    parser.add_argument('--inputFileForShuffle',default='/nfs_scratch/aloeliger/testHDF5Files/largeInputFile.hdf5',help='file to load to shuffle')
+    parser.add_argument('--shuffledFile',default='/nfs_scratch/aloeliger/miniCICADATraining.hdf5',help='File to output for the shuffle, or to load from shuffle')
 
     args = parser.parse_args()
     main(args)

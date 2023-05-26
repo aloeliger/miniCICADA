@@ -161,7 +161,7 @@ process.load('anomalyDetection.anomalyTriggerSkunkworks.uGTModelNtuplizer_cfi')
 process.load('anomalyDetection.anomalyTriggerSkunkworks.pileupNetworkNtuplizer_cfi')
 
 process.load('anomalyDetection.miniCICADA.PFcandSequence_cfi')
-process.load('anomalyDetection.miniCICADA.electronInformationAnalyzer_cfi')
+#process.load('anomalyDetection.miniCICADA.electronInformationAnalyzer_cfi')
 process.load('anomalyDetection.miniCICADA.pileupInformationNtuplizer_cfi')
 process.load('anomalyDetection.miniCICADA.metInformationNtuplizer_cfi')
 process.load('anomalyDetection.miniCICADA.caloStage2EGammaNtuplizer_cfi')

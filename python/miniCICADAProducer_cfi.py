@@ -16,3 +16,8 @@ miniCICADAProducer = cms.EDProducer(
     slimmedTauSrc = cms.InputTag("slimmedTaus"),
     slimmedBoostedTauSrc = cms.InputTag("slimmedTausBoosted"),
 )
+
+miniCICADAProducerCICADAv1 = cms.EDProducer(
+    'miniCICADAProducer',
+    miniCICADAModelLocation = cms.string("/src/anomalyDetection/miniCICADA/data/miniCICADA_v1p0_CICADAv1/miniCICADAModel/"),
+)

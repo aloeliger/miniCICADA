@@ -61,6 +61,8 @@ class miniCICADAProducer: public edm::stream::EDProducer<>{
         tensorflow::Options options;
         tensorflow::MetaGraphDef* metaGraph;
         tensorflow::Session* session;
+
+        std::string outputLabel;
 };
 
 miniCICADAProducer::miniCICADAProducer(const edm::ParameterSet& iConfig):
@@ -75,7 +77,8 @@ miniCICADAProducer::miniCICADAProducer(const edm::ParameterSet& iConfig):
     slimmedFatJetTag(iConfig.getParameter<edm::InputTag>("slimmedFatJetSrc")),
     slimmedPhotonTag(iConfig.getParameter<edm::InputTag>("slimmedPhotonSrc")),
     slimmedTauTag(iConfig.getParameter<edm::InputTag>("slimmedTauSrc")),
-    slimmedBoostedTauTag(iConfig.getParameter<edm::InputTag>("slimmedBoostedTauSrc"))
+    slimmedBoostedTauTag(iConfig.getParameter<edm::InputTag>("slimmedBoostedTauSrc")),
+    outputLabel(iConfig.getParameter<string>("outputLabel"))
 {
     consumes<BXVector<l1t::EGamma>>(EGammaTag);
     consumes<BXVector<l1t::Jet>>(JetTag);
@@ -92,7 +95,7 @@ miniCICADAProducer::miniCICADAProducer(const edm::ParameterSet& iConfig):
 
     std::string pathToModel(std::getenv("CMSSW_BASE"));
     pathToModel.append(iConfig.getParameter<string>("miniCICADAModelLocation"));
-    produces<float>("miniCICADAScore");
+    produces<float>(outputLabel);
 
     metaGraph = tensorflow::loadMetaGraphDef(pathToModel);
     session = tensorflow::createSession(metaGraph, pathToModel, options);
@@ -191,7 +194,7 @@ void miniCICADAProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSet
     *miniCICADAScore = modelOutput[0].matrix<float>()(0,0);
 
 
-    iEvent.put(std::move(miniCICADAScore), "miniCICADAScore");
+    iEvent.put(std::move(miniCICADAScore), outputLabel);
 }
 
 template<typename T>
@@ -280,6 +283,7 @@ void miniCICADAProducer::fillDescriptions(edm::ConfigurationDescriptions& descri
     desc.add<edm::InputTag>("slimmedPhotonSrc", edm::InputTag("slimmedPhotons"));
     desc.add<edm::InputTag>("slimmedTauSrc", edm::InputTag("slimmedTaus"));
     desc.add<edm::InputTag>("slimmedBoostedTauSrc", edm::InputTag("slimmedTausBoosted"));
+    desc.add<string>("outputLabel", "miniCICADAScore");
     descriptions.addDefault(desc);
 }
 
