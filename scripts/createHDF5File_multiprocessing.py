@@ -44,6 +44,15 @@ def create2DListOfCandidates(theChain, objType = caloCandidate, numberOfEntries=
     candidateList.sort(reverse=True, key=lambda x: x[0])#sort based on pt
     return candidateList
 
+def createCICADAInputArray(theChain):
+    outputArray = []
+    for i in range(18):
+        column = []
+        for j in range(14):
+            column.append(float(theChain.modelInput[i*14+j]))
+        outputArray.append(column)
+    return outputArray
+
 def createModelInputList(chainDict):
     electronCands = create2DListOfCandidates(chainDict['EGammaChain'])[:4]
     jetCands = create2DListOfCandidates(chainDict['JetChain'])[:4]
@@ -84,13 +93,19 @@ def createHDF5File(taskNumber: int, entryRange: tuple):
             chains[chainName].GetEntry(index)
         anomalyScoreArray = np.array([chains['anomalyChain'].anomalyScore])
         modelInput = np.array(createModelInputList(chains))
+        cicadaInput = np.array(createCICADAInputArray(chains['anomalyChain']))
+        pileupInput = np.array([chains['PUChain'].npv])
 
         if firstEntry:
             inputDSet = theFile.create_dataset('input',(entriesToProcess, *modelInput.shape))
+            cicadaInputDset = theFile.create_dataset('cicadaInput', (entriesToProcess, *cicadaInput.shape))
+            pileupDset = theFile.create_dataset('pileup', (entriesToProcess, *pileupInput.shape))
             scoreDSet = theFile.create_dataset('anomalyScore', (entriesToProcess, *anomalyScoreArray.shape))
             firstEntry = False
         fileIndex = index - (taskNumber*entriesToProcess)
         inputDSet[fileIndex] = modelInput
+        cicadaInputDset[fileIndex] = cicadaInput
+        pileupDset[fileIndex] = pileupInput
         scoreDSet[fileIndex] = anomalyScoreArray
     theFile.close()
 

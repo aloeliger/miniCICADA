@@ -86,9 +86,6 @@ def main(args):
     test_input_shape = f'Test: {test_input.shape}'
     print(f'{train_input_shape:^18} {val_input_shape:^18} {test_input_shape:^18}')
     print('output_shapes:')
-#chain.GetEntry(i)
-#theScore = chain.anomalyScore
-#theHistogram.Fill(theScore)
     
     train_output_shape = f'Train: {train_output.shape}'
     val_output_shape = f'Val: {val_output.shape}'
@@ -99,12 +96,13 @@ def main(args):
         keras.layers.Input(shape=train_input.shape[1:]),
         keras.layers.BatchNormalization(),
         keras.layers.Dropout(0.2),
+        
         keras.layers.Dense(128),
         keras.layers.PReLU(),
         keras.layers.BatchNormalization(),
         keras.layers.Dropout(0.2),
 
-        keras.layers.Dense(128),
+        keras.layers.Dense(64),
         keras.layers.PReLU(),
         keras.layers.BatchNormalization(),
         keras.layers.Dropout(0.2),
