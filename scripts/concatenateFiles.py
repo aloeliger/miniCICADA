@@ -18,4 +18,19 @@ with h5py.File('/nfs_scratch/aloeliger/testHDF5Files/largeInputFile.hdf5', 'w') 
     destinationPUDSet = destinationFile.create_dataset('pileup', shape=(0,1), maxshape=(None,1), dtype=listOfFiles[0]['pileup'].dtype)
 
     for theFile in tqdm(listOfFiles):
-37
+        inputDSet = theFile['input']
+        cicadaInputDSet = theFile['cicadaInput']
+        scoreDSet = theFile['anomalyScore']
+        pileupDSet = theFile['pileup']
+
+        destinationInputDSet.resize(destinationInputDSet.shape[0]+inputDSet.shape[0], axis=0)
+        destinationCicadaInputDset.resize(destinationCicadaInputDset.shape[0]+cicadaInputDSet.shape[0], axis=0)
+        destinationScoreDSet.resize(destinationScoreDSet.shape[0]+scoreDSet.shape[0],axis=0)
+        destinationPUDSet.resize(destinationPUDSet.shape[0]+pileupDSet.shape[0], axis=0)
+
+        destinationInputDSet[-inputDSet.shape[0]:] = inputDSet[:]
+        destinationCicadaInputDset[-cicadaInputDSet.shape[0]:] = cicadaInputDSet[:]
+        destinationScoreDSet[-scoreDSet.shape[0]:] = scoreDSet[:]
+        destinationPUDSet[-pileupDSet.shape[0]:] = pileupDSet[:]
+
+        theFile.close()
