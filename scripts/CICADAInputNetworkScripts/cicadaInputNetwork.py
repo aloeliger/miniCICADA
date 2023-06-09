@@ -3,7 +3,7 @@ import h5py
 import numpy as np
 from tensorflow import keras
 import time
-from createMiniCICADAOneArray import loadExistingTrainValTestArrays
+from anomalyDetection.miniCICADA.scripts.miniCICADAScripts.createMiniCICADAOneArray import loadExistingTrainValTestArrays
 import argparse
 
 def createTrainValTestArrays(inputFileForShuffle, outputFileForShuffle):

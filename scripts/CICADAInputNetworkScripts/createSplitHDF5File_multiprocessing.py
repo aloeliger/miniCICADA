@@ -1,5 +1,5 @@
 import h5py
-from createHDF5File_multiprocessing import prepareInputChains, create2DListOfCandidates, createCICADAInputArray
+from anomalyDetection.miniCICADA.scripts.miniCICADAScripts.createHDF5File_multiprocessing import prepareInputChains, create2DListOfCandidates, createCICADAInputArray
 import time
 import multiprocessing
 from anomalyDetection.miniCICADA.scriptIncludes.candidates import *
