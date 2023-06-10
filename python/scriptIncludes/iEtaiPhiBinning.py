@@ -40,54 +40,121 @@ class iEtaBin():
             return False
     def getValue(self)->int:
         return self.iEta
+
+regionPhiBinMapping = {
+    0: (-0.1745, 0.1745),
+    1: (0.1745, 0.5235),
+    2: (0.5235, 0.8726),
+    3: (0.8726, 1.221),
+    4: (1.221, 1.570),
+    5: (1.570, 1.919),
+    6: (1.919, 2.269),
+    7: (2.269, 2.618),
+    8: (2.618, 2.967),
+    9: (2.967, -2.967),
+    10: (-2.967, -2.618),
+    11: (-2.618, -2.269),
+    12: (-2.269, -1.919),
+    13: (-1.919, -1.570),
+    14: (-1.570, -1.221),
+    15: (-1.221, -0.8726),
+    16: (-0.8726, 0.5235),
+    17: (-0.5235, -0.1745),
+}
+
+regionEtaBinMapping = {
+    0: (-5.0, 4.5),
+    1: (-4.5, -4.0),
+    2: (-4.0, -3.5),
+    3: (-3.5, -3.0),
+    4: (-3.0, -2.172),
+    5: (-2.172, -1.74),
+    6: (-1.74, -1.392),
+    7: (-1.392, -1.044),
+    8: (-1.044, -0.696),
+    9: (-0.696, -0.348),
+    10: (-0.348, 0.0),
+    11: (0.0, 0.348),
+    12: (0.348, 0.696),
+    13: (0.696, 1.044),
+    14: (1.044, 1.392),
+    15: (1.392, 1.74),
+    16: (1.74, 2.172),
+    17: (2.172, 3.0),
+    18: (3.0, 3.5),
+    19: (3.5, 4.0),
+    20: (4.0, 4.5),
+    21: (4.5, 5.0)
+}
+
+etaTowerEdges = [
+    0.0,
+    0.087,      
+    0.174, 
+    0.261,
+    0.348,
+    0.522,
+    0.609,
+    0.696,
+    0.783,
+    0.870,
+    0.957,
+    1.044,
+    1.131,
+    1.218,
+    1.305,
+    1.392,
+    1.479,
+    1.566,
+    1.653,
+    1.74,
+    1.848,
+    1.956, 
+    2.064,
+    2.172,
+    2.379,
+    2.586,
+    2.793,
+    3.0,
+    3.250, 
+    3.750,
+    4.250,
+    4.750,
+    5.0,
+]
+def generateEtaBinMapping():
+    allEdges = []
+    for edge in etaTowerEdges:
+        allEdges.append(edge)
+        if edge != 0.0:
+            allEdges.insert(0, -1.0*edge)
+    edgeMapping = {}
+    for i in range(len(allEdges)-1):
+        edgeMapping[i] = (allEdges[i],allEdges[i+1])
+    # print(edgeMapping)
+    return edgeMapping
+
+#comes up with 62 bins,  inclusive, zero indexing are region towers
+towerEtaBinMapping = generateEtaBinMapping() #56 towers in eta
+
+def generatePhiBinMapping():
+    edgeMapping = {}
+    increment = math.pi/36.0
+    for i in range(36):
+        edgeMapping[i] = (i*increment, (i+1)*increment)
+    for i in range(36,72):
+        edgeMapping[i] = (-1.0*math.pi+(i-36)*increment, -1.0*math.pi+(i-35)*increment)
+    # print(edgeMapping)
+    return edgeMapping
+
+towerPhiBinMapping = generatePhiBinMapping() #72 towers in phi
+
     
 class iEtaiPhiBinCollection():
     def __init__(
         self,
-        phiBinMapping = {
-            0: (-0.1745, 0.1745),
-            1: (0.1745, 0.5235),
-            2: (0.5235, 0.8726),
-            3: (0.8726, 1.221),
-            4: (1.221, 1.570),
-            5: (1.570, 1.919),
-            6: (1.919, 2.269),
-            7: (2.269, 2.618),
-            8: (2.618, 2.967),
-            9: (2.967, -2.967),
-            10: (-2.967, -2.618),
-            11: (-2.618, -2.269),
-            12: (-2.269, -1.919),
-            13: (-1.919, -1.570),
-            14: (-1.570, -1.221),
-            15: (-1.221, -0.8726),
-            16: (-0.8726, 0.5235),
-            17: (-0.5235, -0.1745),
-        },   
-        etaBinMapping = {
-            0: (-5.0, 4.5),
-            1: (-4.5, -4.0),
-            2: (-4.0, -3.5),
-            3: (-3.5, -3.0),
-            4: (-3.0, -2.172),
-            5: (-2.172, -1.74),
-            6: (-1.74, -1.392),
-            7: (-1.392, -1.044),
-            8: (-1.044, -0.696),
-            9: (-0.696, -0.348),
-            10: (-0.348, 0.0),
-            11: (0.0, 0.348),
-            12: (0.348, 0.696),
-            13: (0.696, 1.044),
-            14: (1.044, 1.392),
-            15: (1.392, 1.74),
-            16: (1.74, 2.172),
-            17: (2.172, 3.0),
-            18: (3.0, 3.5),
-            19: (3.5, 4.0),
-            20: (4.0, 4.5),
-            21: (4.5, 5.0)
-        }
+        phiBinMapping = regionPhiBinMapping,   
+        etaBinMapping = regionEtaBinMapping,
     ):
         self.phiBinMapping = phiBinMapping
         self.etaBinMapping = etaBinMapping
@@ -123,7 +190,7 @@ class iEtaiPhiBinCollection():
                 return listToSearch[centralValue]
             #otherwise, we need to determine a new half of the list to search
             else:
-                if value > listToSearch[centralValue].highEdge:
+                if value >= listToSearch[centralValue].highEdge:
                     return self.searchAppropriateBin(value=value, listToSearch=listToSearch[centralValue+1:])
                 elif value < listToSearch[centralValue].lowEdge:
                     return self.searchAppropriateBin(value=value, listToSearch=listToSearch[:centralValue])
