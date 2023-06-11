@@ -88,14 +88,15 @@ regionEtaBinMapping = {
 }
 
 etaTowerEdges = [
-    0.0,
+    0.0,  # begin edge of 0 bin
     0.087,      
     0.174, 
     0.261,
-    0.348,
+    0.348, # end edge of 0 bin, begin edge 1 bin
+    0.435,
     0.522,
     0.609,
-    0.696,
+    0.696, # end
     0.783,
     0.870,
     0.957,
@@ -117,8 +118,11 @@ etaTowerEdges = [
     2.793,
     3.0,
     3.250, 
+    3.50,
     3.750,
+    4.0,
     4.250,
+    4.50,
     4.750,
     5.0,
 ]
@@ -134,7 +138,7 @@ def generateEtaBinMapping():
     # print(edgeMapping)
     return edgeMapping
 
-#comes up with 62 bins,  inclusive, zero indexing are region towers
+#comes up with 64 bins, zero indexing: 5-58 inclusive are region towers
 towerEtaBinMapping = generateEtaBinMapping() #56 towers in eta
 
 def generatePhiBinMapping():
