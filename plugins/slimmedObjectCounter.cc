@@ -42,6 +42,11 @@ namespace objectCounter
 
             TTree* outputTree;
             unsigned int nObjects = 0;
+            std::vector<double> ptVector;
+            std::vector<double> etaVector;
+            std::vector<double> phiVector;
+            std::vector<double> massVector;
+            std::vector<double> etVector;
     };
 
     template <class T>
@@ -51,8 +56,13 @@ namespace objectCounter
         usesResource("TFileService");
         consumes<std::vector<T>>(objectSrc);
 
-        outputTree = theFileService->make<TTree>("objectCounts", "number of objects of the relevant type");
+        outputTree = theFileService->make<TTree>("objectInfo", "basic object info");
         outputTree->Branch("nObjects", &nObjects);
+        outputTree->Branch("ptVector", &ptVector);
+        outputTree->Branch("etaVector", &etaVector);
+        outputTree->Branch("phiVector", &phiVector);
+        outputTree->Branch("massVector", &massVector);
+        outputTree->Branch("etVector", &etVector);
     }
 
     template <class T>
@@ -63,9 +73,25 @@ namespace objectCounter
 
         nObjects = objectHandle->size();
 
+        for(auto theObject = objectHandle->begin();
+            theObject != objectHandle->end();
+            theObject++)
+        {
+            ptVector.push_back(theObject->pt());
+            etaVector.push_back(theObject->eta());
+            phiVector.push_back(theObject->phi());
+            massVector.push_back(theObject->mass());
+            etVector.push_back(theObject->et());
+        }
+
         outputTree->Fill();
 
         nObjects = 0;
+        ptVector.clear();
+        etaVector.clear();
+        phiVector.clear();
+        massVector.clear();
+        etVector.clear();
     }
 
 }
