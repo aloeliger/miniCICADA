@@ -22,7 +22,7 @@ miniCICADAProducerCICADAv1 = cms.EDProducer(
     miniCICADAModelLocation = cms.string("/src/anomalyDetection/miniCICADA/data/miniCICADA_v1p0_CICADAv1/miniCICADAModel/"),
 )
 
-miniCICADAv1p1_CICADAv1 = cms.EDProducer(
+miniCICADAv1p1CICADAv1 = cms.EDProducer(
     'miniCICADAProducer',
     miniCICADAModelLocation = cms.string("/src/anomalyDetection/miniCICADA/data/miniCICADAv1p1_CICADAv1")
 )
