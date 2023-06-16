@@ -8,4 +8,8 @@
 <use name="DataFormats/PatCandidates"/>
 <use name="PhysicsTools/TensorFlow"/>
 
+<use name="hls"/>
+<use name="hls4mlEmulatorExtras"/>
+<use name="CICADA"/>
+
 <flags EDM_PLUGIN="1"/>
