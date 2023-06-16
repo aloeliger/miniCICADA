@@ -126,39 +126,70 @@ from L1Trigger.Configuration.customiseSettings import L1TSettingsToCaloParams_20
 process = L1TSettingsToCaloParams_2018_v1_3(process)
 
 #load up our ntuplization stuff and append it on to the end of the schedule
-process.load('L1Trigger.L1TCaloLayer1.uct2016EmulatorDigis_cfi')
+#process.load('L1Trigger.L1TCaloLayer1.uct2016EmulatorDigis_cfi')
+process.load('L1Trigger.L1TCaloLayer1.L1TCaloSummaryCICADAv1')
+process.load('L1Trigger.L1TCaloLayer1.L1TCaloSummaryCICADAv2')
 #process.CaloSummaryPath = cms.Path(process.uct2016EmulatorDigis)
 #process.schedule.append(process.CaloSummaryPath)
 
-process.load('anomalyDetection.anomalyTriggerSkunkworks.uGTADEmulator_cfi')
+# process.load('anomalyDetection.anomalyTriggerSkunkworks.uGTADEmulator_cfi')
 #process.uGTEmulationPath = cms.Path(process.uGTADEmulator)
 #process.schedule.append(process.uGTEmulationPath)
 
 #get the pileup network
-process.load('anomalyDetection.anomalyTriggerSkunkworks.pileupNetworkProducer_cfi')
+# process.load('anomalyDetection.anomalyTriggerSkunkworks.pileupNetworkProducer_cfi')
+# get the CICADAInputNetworkProducer 
+process.load('anomalyDetection.miniCICADA.CICADAInputNetworkProducer_cfi')
+#get the CICADAInputNetwork Producer
+process.load('anomalyDetection.miniCICADA.CICADAFromCINProducer_cfi')
+process.load('anomalyDetection.miniCICADA.miniCICADAProducer_cfi')
+
 
 process.productionTask = cms.Task(
-    process.uct2016EmulatorDigis,
-    process.uGTADEmulator,
-    #process.pileupNetworkProducer,
+#    process.uct2016EmulatorDigis,
+    process.L1TCaloSummaryCICADAv1,
+    process.L1TCaloSummaryCICADAv2,
+#    process.uGTADEmulator,
+    # process.pileupNetworkProducer,
+    process.CICADAInputNetworkProducerv1p0,
+    process.CICADAv1FromCINv1Producer,
+    process.CICADAv2FromCINv1Producer,
+    process.miniCICADAProducer,
+    process.miniCICADAProducerCICADAv1,
+    process.miniCICADAv1p1CICADAv1,
 )
 
 process.productionPath = cms.Path(process.productionTask)
 
 process.schedule.append(process.productionPath)
 
-process.load('anomalyDetection.anomalyTriggerSkunkworks.L1TCaloSummaryTestNtuplizer_cfi')
-process.L1TCaloSummaryTestNtuplizer.ecalToken = cms.InputTag('simEcalTriggerPrimitiveDigis')
-process.L1TCaloSummaryTestNtuplizer.hcalToken = cms.InputTag('simHcalTriggerPrimitiveDigis')
+# process.load('anomalyDetection.anomalyTriggerSkunkworks.L1TCaloSummaryTestNtuplizer_cfi')
+# process.L1TCaloSummaryTestNtuplizer.ecalToken = cms.InputTag('simEcalTriggerPrimitiveDigis')
+# process.L1TCaloSummaryTestNtuplizer.hcalToken = cms.InputTag('simHcalTriggerPrimitiveDigis')
+from anomalyDetection.anomalyTriggerSkunkworks.L1TCaloSummaryTestNtuplizer_cfi import L1TCaloSummaryTestNtuplizer
+
+process.CICADAv1ntuplizer = L1TCaloSummaryTestNtuplizer.clone(
+    scoreSource = cms.InputTag("L1TCaloSummaryCICADAv1","anomalyScore"),
+    ecalToken = cms.InputTag('simEcalTriggerPrimitiveDigis'),
+    hcalToken = cms.InputTag('simHcalTriggerPrimitiveDigis'),
+    # includePUInfo = cms.bool(True),
+)
+
+process.CICADAv2ntuplizer = L1TCaloSummaryTestNtuplizer.clone(
+    scoreSource = cms.InputTag("L1TCaloSummaryCICADAv2","anomalyScore"),
+    ecalToken = cms.InputTag('simEcalTriggerPrimitiveDigis'),
+    hcalToken = cms.InputTag('simHcalTriggerPrimitiveDigis'),
+    # includePUInfo = cms.bool(True),
+)
 
 process.load('anomalyDetection.anomalyTriggerSkunkworks.L1TTriggerBitsNtuplizer_cfi')
 process.L1TTriggerBitsNtuplizer.verboseDebug= cms.bool(False)
 
 process.load('anomalyDetection.anomalyTriggerSkunkworks.boostedJetTriggerNtuplizer_cfi')
 
-process.load('anomalyDetection.anomalyTriggerSkunkworks.uGTModelNtuplizer_cfi')
+# process.load('anomalyDetection.anomalyTriggerSkunkworks.uGTModelNtuplizer_cfi')
 
-process.load('anomalyDetection.anomalyTriggerSkunkworks.pileupNetworkNtuplizer_cfi')
+# process.load('anomalyDetection.anomalyTriggerSkunkworks.pileupNetworkNtuplizer_cfi')
 
 process.load('anomalyDetection.miniCICADA.PFcandSequence_cfi')
 #process.load('anomalyDetection.miniCICADA.electronInformationAnalyzer_cfi')
@@ -169,12 +200,25 @@ process.load('anomalyDetection.miniCICADA.caloStage2JetNtuplizer_cfi')
 process.load('anomalyDetection.miniCICADA.caloStage2TauNtuplizer_cfi')
 process.load('anomalyDetection.miniCICADA.caloStage2EtSumNtuplizer_cfi')
 process.load('anomalyDetection.miniCICADA.slimmedObjectCounter_cfi')
+process.load('anomalyDetection.miniCICADA.CICADAInputNetworkAnalyzer_cfi')
+process.load('anomalyDetection.miniCICADA.CICADAFromCINAnalyzer_cfi')
+process.load('anomalyDetection.miniCICADA.miniCICADAAnalyzer_cfi')
 
 process.caloStage2Sequence = cms.Sequence(
                                 process.caloStage2EGammaNtuplizer + 
                                 process.caloStage2JetNtuplizer + 
                                 process.caloStage2TauNtuplizer +
                                 process.caloStage2EtSumNtuplizer
+)
+
+process.CICADAFromCINSequence = cms.Sequence(
+    process.CICADAv1FromCINv1Analyzer +
+    process.CICADAv2FromCINv1Analyzer
+)
+process.miniCICADAAnalyzerSequence = cms.Sequence(
+    process.miniCICADAAnalyzer +
+    process.miniCICADAAnalyzerCICADAv1 +
+    process.miniCICADAv1p1AnalyzerCICADAv1 
 )
 
 
@@ -184,8 +228,13 @@ process.TFileService = cms.Service(
         fileName = cms.string(options.outputFile)
 )
 process.NtuplePath = cms.Path(
-                                process.L1TCaloSummaryTestNtuplizer +
-                                process.uGTModelNtuplizer +
+                                # process.L1TCaloSummaryTestNtuplizer +
+                                process.CICADAv1ntuplizer +
+                                process.CICADAv2ntuplizer +
+                                process.CICADAInputNetworkAnalyzerv1p0 +
+                                process.CICADAFromCINSequence +
+                                process.miniCICADAAnalyzerSequence +
+                                # process.uGTModelNtuplizer +
                                 process.PFcandSequence +
                                 process.pileupInformationNtuplizer +
                                 process.metInformationNtuplizer +
