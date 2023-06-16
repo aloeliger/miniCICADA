@@ -206,7 +206,7 @@ std::vector<T> miniCICADAProducer::getNLeadingObjects(int nObj, const BXVector<T
         auto it = resVector.begin();
         for (; it != resVector.end(); ++it)
         {
-            //If this spot in the 
+            //If we're higher pt, then keep going, otherwise, we're in the right spot
             if (it->pt() > particle->pt())
                 continue;
             else
