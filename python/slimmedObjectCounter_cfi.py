@@ -2,37 +2,50 @@ import FWCore.ParameterSet.Config as cms
 
 electronCounter = cms.EDAnalyzer(
     'electronCounter',
-    objectSrc = cms.InputTag('slimmedElectrons')
+    objectSrc = cms.InputTag('slimmedElectrons'),
+    object_name = cms.string('electron'),
 )
 
 jetCounter = cms.EDAnalyzer(
     'jetCounter',
-    objectSrc = cms.InputTag('slimmedJets')
+    objectSrc = cms.InputTag('slimmedJets'),
+    object_name = cms.string('jet'),
 )
 
 fatJetCounter = cms.EDAnalyzer(
     'jetCounter',
-    objectSrc = cms.InputTag('slimmedJetsAK8')
+    objectSrc = cms.InputTag('slimmedJetsAK8'),
+    object_name = cms.string('fatJet'),
 )
 
 muonCounter = cms.EDAnalyzer(
     'muonCounter',
-    objectSrc = cms.InputTag('slimmedMuons')
+    objectSrc = cms.InputTag('slimmedMuons'),
+    object_name = cms.string('muon'),
 )
 
 photonCounter = cms.EDAnalyzer(
     'photonCounter',
-    objectSrc=cms.InputTag('slimmedPhotons')
+    objectSrc=cms.InputTag('slimmedPhotons'),
+    object_name = cms.string('photon'),
 )
 
 tauCounter = cms.EDAnalyzer(
     'tauCounter',
-    objectSrc = cms.InputTag('slimmedTaus')
+    objectSrc = cms.InputTag('slimmedTaus'),
+    object_name = cms.string('tau'),
 )
 
 boostedTauCounter = cms.EDAnalyzer(
     'tauCounter',
-    objectSrc = cms.InputTag('slimmedTausBoosted')
+    objectSrc = cms.InputTag('slimmedTausBoosted'),
+    object_name = cms.string('boostedTau'),
+)
+
+metCounter = cms.EDAnalyzer(
+    'metCounter',
+    objectSrc = cms.InputTag('slimmedMETsPuppi'),
+    object_name = cms.string('met'),
 )
 
 objectCountSequence = cms.Sequence (
@@ -41,6 +54,7 @@ objectCountSequence = cms.Sequence (
     fatJetCounter +
     muonCounter +
     photonCounter +
-    tauCounter+
-    boostedTauCounter
+    tauCounter +
+    boostedTauCounter +
+    metCounter
 )
